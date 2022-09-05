@@ -29,6 +29,13 @@ export default function generateResultTypeFields(
       return resultType.fields.map((x: any) => x.name)
     }
 
+    case 'UNION': {
+      /**
+       * User must provide the fragment
+       */
+      return []
+    }
+
     case 'OBJECT': {
       const resultType = <IntrospectionObjectType>(
         allTypes.find(x => x.name === type.name)

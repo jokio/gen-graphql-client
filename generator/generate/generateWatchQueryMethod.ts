@@ -51,7 +51,9 @@ export default function (
   const method = renderMethod({
     rootType: 'watchQuery',
     methodName,
-    generateDefaultFragments,
+    generateDefaultFragments:
+      generateDefaultFragments &&
+      (!resultTypeFields || resultTypeFields.length > 0),
     hasProps: hasInputs,
     propsType,
     hasResultType,

@@ -54,7 +54,9 @@ export default function (
   const method = renderMethod({
     rootType: RootType.Query,
     methodName,
-    generateDefaultFragments,
+    generateDefaultFragments:
+      generateDefaultFragments &&
+      (!resultTypeFields || resultTypeFields.length > 0),
     hasProps: hasInputs,
     propsType,
     hasResultType,

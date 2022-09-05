@@ -6,7 +6,7 @@ const flags = parseFlags(Deno.args)
 const endpointUrl = flags.e ?? flags._[0]
 const outputUrl = flags.o ?? 'graphql.generated.ts'
 const typeNamePrefix = flags.prefix ?? ''
-const enumToUnion = !flags.generateEnums
+const enumToUnion = !flags.enums
 const generateDefaultFragments =
   !!flags.defaultFragment || !!flags.defaultFragments
 
