@@ -10,7 +10,8 @@ export default function (
   generateDefaultFragments: boolean,
   includeTypeName: boolean,
   typeNamePrefix: string,
-  typeNamePostfix: string
+  typeNamePostfix: string,
+  enumToUnion: boolean
 ) {
   const {
     queryType: { name: queryTypeName },
@@ -87,7 +88,14 @@ export default function (
 
   const generatedOtherTypes = otherTypes
     .sort(sortTypesByKind)
-    .map(generateType(includeTypeName, typeNamePrefix, typeNamePostfix))
+    .map(
+      generateType(
+        includeTypeName,
+        typeNamePrefix,
+        typeNamePostfix,
+        enumToUnion
+      )
+    )
     .filter((x: any) => !!x)
     .join('\n')
 

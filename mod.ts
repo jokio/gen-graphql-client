@@ -7,6 +7,7 @@ export default function ({
   includeTypeName = false,
   typeNamePrefix = '',
   typeNamePostfix = '',
+  enumToUnion = true,
 }: any) {
   const startedAt = Date.now()
 
@@ -17,6 +18,7 @@ export default function ({
     includeTypeName,
     typeNamePrefix,
     typeNamePostfix,
+    enumToUnion,
   })
     .then(() => {
       console.log(`Generated at  :  ${outputUrl}`)

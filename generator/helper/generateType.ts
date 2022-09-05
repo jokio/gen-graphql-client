@@ -13,7 +13,8 @@ import getTypescriptField from './getTypescriptField.ts'
 export default function (
   includeTypeName: boolean,
   typeNamePrefix: string,
-  typeNamePostfix: string
+  typeNamePostfix: string,
+  enumToUnion: boolean
 ) {
   return (type: IntrospectionType) => {
     if (type.name.startsWith('__')) {
@@ -34,7 +35,7 @@ export default function (
         return inputObjectType(type, typeNamePrefix, typeNamePostfix)
 
       case 'ENUM':
-        return enumType(type)
+        return enumToUnion ? tsUnionType(type) : enumType(type)
 
       case 'SCALAR':
         return scalarType(type)
@@ -93,7 +94,20 @@ function inputObjectType(
   return `
 export interface ${typeNamePrefix}${typeName}${typeNamePostfix} {
 ${fields}
+}
+${
+  typeNamePrefix || typeNamePostfix
+    ? `type ${typeName} = ${typeNamePrefix}${typeName}${typeNamePostfix}`
+    : ''
 }`
+}
+
+function tsUnionType(type: IntrospectionEnumType) {
+  const typeName = type.name
+  const fields = type.enumValues.map((x: any) => `'${x.name}'`).join(' | ')
+
+  return `
+export type ${typeName} = ${fields}`
 }
 
 function enumType(type: IntrospectionEnumType) {
