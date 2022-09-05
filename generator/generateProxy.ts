@@ -48,11 +48,11 @@ export default function (
     generateDefaultFragments
   )(queryType)
 
-  const generatedWatchQuery = generateRootType(
-    'watchQuery',
-    otherTypes,
-    generateDefaultFragments
-  )(queryType)
+  // const generatedWatchQuery = generateRootType(
+  //   'watchQuery',
+  //   otherTypes,
+  //   generateDefaultFragments
+  // )(queryType)
 
   const generatedRefetchQuery = generateRootType(
     'refetchQuery',
@@ -95,7 +95,7 @@ export default function (
 
   return renderProxy({
     generatedQuery,
-    generatedWatchQuery,
+    generatedWatchQuery: '',
     generatedRefetchQuery,
     generatedCacheWriteQuery,
     generatedMutation,

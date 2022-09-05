@@ -130,11 +130,6 @@ export default function (client: ApolloClient<any>, defaultOptions: DefaultOptio
 	}
 }
 
-function fixObservable(obs: any) {
-	(obs as any)[observable] = () => obs
-	return obs
-}
-
 function getResultData<T>(result: any, dataFieldName: any) {
 	// if error, throw it
 	if (result.errors) {

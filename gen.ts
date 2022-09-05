@@ -4,6 +4,8 @@ const endpointUrl = Deno.args[0]
 const outputUrl = Deno.args[1] ?? 'graphql.generated.ts'
 const typeNamePrefix = Deno.args[2] ?? ''
 
+console.log('Introspecting : ', endpointUrl)
+
 gen({
   endpointUrl,
   output: outputUrl,

@@ -30,9 +30,11 @@ export default function ({
     }
 		})
 
-		return from(fixObservable(zenObs)).pipe(
-			map(result => getResultData<${returnType}>(result, '${queryName}'))
-		)`
+		return zenObs
+    // from(fixObservable(zenObs)).pipe(
+		// 	map(result => getResultData<${returnType}>(result, '${queryName}'))
+		// )
+    `
   }
 
   if (isWatchQuery) {
