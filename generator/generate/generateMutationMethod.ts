@@ -63,7 +63,7 @@ export default function (
     returnClassFullname,
     renderContent: () =>
       // Render Query
-      renderOptions(fragmentName, hasResultType) +
+      renderOptions(fragmentName, hasResultType, undefined, returnClassName) +
       (hasResultType
         ? renderFragment(type, generateDefaultFragments, returnGraphqlTypeName)
         : '') +

@@ -144,20 +144,20 @@ function getResultData<T>(result: any, dataFieldName: any) {
 	return <T><any>result.data[dataFieldName]
 }
 
-function getFirstFragmentName(fragmentParam: string | Object | undefined) {
+function getFirstFragmentName(fragmentParam: string | Object | undefined, returnClassName: string) {
 
   if (typeof fragmentParam !== 'object') { return }
   const fragment = fragmentParam as any
 
-	if (
-		!fragment ||
-		!fragment['definitions'] ||
-		!fragment['definitions'][0] ||
-		!fragment['definitions'][0].name ||
-		!fragment['definitions'][0].name.value
-	) { return }
 
-	return fragment['definitions'][0].name.value
+  var fragmentDef = fragment.definitions.filter(
+    (x: any) => x.kind === 'FragmentDefinition' && (!returnClassName || x.typeCondition?.name?.value === returnClassName)
+  )[0]
+
+  const fragmentName =
+    fragmentDef.kind === 'FragmentDefinition' && fragmentDef?.name?.value
+
+  return fragmentName
 }
 `
 }
