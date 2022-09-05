@@ -25,3 +25,7 @@ deno run -A https://deno.land/x/gen_graphql/gen.ts -e http://localhost:5000/grap
 - `--prefix` - Prefix for generated types
 - `--enums` - Generate enums instead of ts union types for GraphQL Enums
 - `--defaultFragment` - Generate default fragments for queries with all fields (level 1 only)
+
+## React
+
+Check out [react](./react/) folder for examples
