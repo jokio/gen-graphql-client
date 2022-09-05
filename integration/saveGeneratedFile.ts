@@ -1,9 +1,9 @@
-import { fs, path } from '../deps.ts'
+import { ensureFileSync, pathJoin } from '../deps.ts'
 
 export default function (location: string, output: string) {
-  const fullpath = path.join(location)
+  const fullpath = pathJoin(location)
 
-  fs.ensureFileSync(fullpath)
+  ensureFileSync(fullpath)
 
   Deno.writeTextFileSync(fullpath, output)
 }
