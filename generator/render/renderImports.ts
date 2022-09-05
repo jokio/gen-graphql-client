@@ -8,6 +8,7 @@ import {
 	OperationVariables,
 	QueryOptions,
 	SubscriptionOptions,
+	WatchQueryFetchPolicy,
 	WatchQueryOptions,
 } from '@apollo/client'
 import { UpdateQueryFn } from '@apollo/client/core/watchQueryOptions'

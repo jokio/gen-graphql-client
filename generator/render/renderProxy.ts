@@ -67,14 +67,18 @@ interface FragmentOptions {
 	fragmentName?: string
 }
 
-interface GraphqlCallOptions {
-	fetchPolicy?: FetchPolicy
+interface GraphqlCallOptions<TFetchPolicy = FetchPolicy> {
+	fetchPolicy?: TFetchPolicy
 	errorPolicy?: ErrorPolicy
 }
 
 interface DefaultOptions {
 	${generatedQuery ? 'query?: GraphqlCallOptions' : ''}
-	${generatedWatchQuery ? 'watchQuery?: GraphqlCallOptions' : ''}
+	${
+    generatedWatchQuery
+      ? 'watchQuery?: GraphqlCallOptions<WatchQueryFetchPolicy>'
+      : ''
+  }
 	${generatedMutation ? `mutation?: Omit<GraphqlCallOptions, 'fetchPolicy'>` : ''}
 	${
     generatedSubscription

@@ -39,9 +39,9 @@ export default function ({
 			${fragmentProp}`
         : `
 			${fragmentProp}
-			options?: GraphqlCallOptions ${
-        fragmentType ? `& ${fragmentType}` : ''
-      } & ${omittedOptionsType},`
+			options?: GraphqlCallOptions<${
+        rootType === 'watchQuery' ? 'WatchQueryFetchPolicy' : 'FetchPolicy'
+      }> ${fragmentType ? `& ${fragmentType}` : ''} & ${omittedOptionsType},`
     }
 	) {
 	${renderContent()}
