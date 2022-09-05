@@ -1,20 +1,17 @@
 import renderImports from './renderImports.ts'
 
-export default function (
-  {
-    generatedOtherTypes,
-    generatedQuery,
-    generatedWatchQuery,
-    generatedRefetchQuery,
-    generatedCacheWriteQuery,
-    generatedMutation,
-    generatedSubscription,
-    generatedSubscriptionDocument,
-    generatedQueryTypesEnum,
-  }: any,
-  useApolloClientV3: boolean
-) {
-  return `${renderImports(useApolloClientV3)}
+export default function ({
+  generatedOtherTypes,
+  generatedQuery,
+  generatedWatchQuery,
+  generatedRefetchQuery,
+  generatedCacheWriteQuery,
+  generatedMutation,
+  generatedSubscription,
+  generatedSubscriptionDocument,
+  generatedQueryTypesEnum,
+}: any) {
+  return `${renderImports()}
 
 // tslint:disable
 
