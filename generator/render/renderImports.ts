@@ -9,7 +9,7 @@ import {
 	QueryOptions,
 	SubscriptionOptions,
 	WatchQueryOptions,
-} from '@apollo/client/core'
+} from '@apollo/client'
 import { UpdateQueryFn } from '@apollo/client/core/watchQueryOptions'
 
 // gql2 - to ignore apollo extention validation

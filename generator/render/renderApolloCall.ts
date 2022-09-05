@@ -60,9 +60,7 @@ export default function ({
 		  })
 		})
 
-		return from(fixObservable(zenObs)).pipe(
-			map(result => getResultData<${returnType}>(result, '${queryName}'))
-		)`
+		return zenObs.map((x: any) => getResultData<${returnType}>(x, '${queryName}'))`
   }
 
   return `
@@ -75,7 +73,7 @@ export default function ({
 			variables: props,`
       : ''
   }
-		}).then(result => getResultData<${returnType}>(result, '${queryName}'))`
+		}).then((result: any) => getResultData<${returnType}>(result, '${queryName}'))`
 }
 
 interface Props {
