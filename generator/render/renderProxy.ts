@@ -202,11 +202,15 @@ function getResultData<T>(result: any, dataFieldName: any) {
 	return <T><any>result.data[dataFieldName]
 }
 
-function getFirstFragmentName(fragmentParam: string | Object | undefined, returnClassName: string) {
+function getFirstFragmentName(gql: any, fragmentParam: string | Object | undefined, returnClassName: string) {
 
-  if (typeof fragmentParam !== 'object') { return }
-  const fragment = fragmentParam as any
+  const fragment = (typeof fragmentParam === 'string' && gql) 
+    ? gql(fragmentParam)
+    : (typeof fragmentParam === 'object')
+      ? fragmentParam as any
+      : null
 
+  if (!fragment) { return }
 
   const fragmentDef = fragment.definitions.filter(
     (x: any) => x.kind === 'FragmentDefinition' && (!returnClassName || x.typeCondition?.name?.value === returnClassName)

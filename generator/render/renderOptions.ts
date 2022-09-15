@@ -7,7 +7,7 @@ export default function (
 ) {
   const fragmentNameSection = hasResultType
     ? `
-		const fragmentName = mergedOptions?.fragmentName || getFirstFragmentName(fragment, '${returnClassName}') || '${fragmentName}'`
+		const fragmentName = mergedOptions?.fragmentName || getFirstFragmentName(this.gql, fragment, '${returnClassName}') || '${fragmentName}'`
     : ''
 
   return `

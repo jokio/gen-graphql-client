@@ -19,7 +19,8 @@ export class ${className}${onlyDocument ? 'Document' : ''} {
         ? `
     private url: string,
     private getHeaders: () => Record<string, string> = () => ({}),
-    private fetchGraphql: FetchGraphql = defaultFetchGraphql
+    private fetchGraphql: FetchGraphql = defaultFetchGraphql,
+    private gql?: any
     `
         : `
     private client: ApolloClient<any>, 
@@ -27,7 +28,8 @@ export class ${className}${onlyDocument ? 'Document' : ''} {
       isWatchQuery
         ? ', private subscriptionDocument: SubscriptionDocument | null = null'
         : ''
-    }
+    },
+    private gql?: any
   `
     }) { }
 ${renderMethods()}
