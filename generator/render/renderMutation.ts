@@ -3,10 +3,11 @@ export default function ({
   queryName,
   variablesDeclarationString,
   variablesString,
+  useFetch,
 }: any) {
   if (!hasFragment) {
     return `	// build query
-		const mutation = gql2\`
+		const mutation = ${useFetch ? '' : 'gql2'}\`
 		mutation ${queryName}${variablesDeclarationString} {
 			${queryName}${variablesString}
 		}
@@ -15,7 +16,7 @@ export default function ({
 
   return `
 		// build query
-		const mutation = gql2\`
+		const mutation = ${useFetch ? '' : 'gql2'}\`
 		mutation ${queryName}${variablesDeclarationString} {
 			${queryName}${variablesString} {
 				...\${fragmentName}

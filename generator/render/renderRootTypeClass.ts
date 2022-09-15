@@ -4,6 +4,7 @@ export default function ({
   renderMethods,
   isWatchQuery,
   onlyDocument,
+  useFetch,
 }: any) {
   return `
 // ${className} props -----------------------------------
@@ -12,11 +13,23 @@ ${renderPropTypes()}
 // ${className} apis ------------------------------------
 export class ${className}${onlyDocument ? 'Document' : ''} {
 
-	constructor(private client: ApolloClient<any>, private defaultOptions: GraphqlCallOptions = {} ${
-    isWatchQuery
-      ? ', private subscriptionDocument: SubscriptionDocument | null = null'
-      : ''
-  }) { }
+	constructor(
+    ${
+      useFetch
+        ? `
+    private url: string,
+    private getHeaders: () => Record<string, string>,
+    private fetchGraphql: FetchGraphql = defaultFetchGraphql
+    `
+        : `
+    private client: ApolloClient<any>, 
+    private defaultOptions: GraphqlCallOptions = {} ${
+      isWatchQuery
+        ? ', private subscriptionDocument: SubscriptionDocument | null = null'
+        : ''
+    }
+  `
+    }) { }
 ${renderMethods()}
 }
 `

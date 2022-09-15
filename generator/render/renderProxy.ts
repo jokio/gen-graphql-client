@@ -10,8 +10,10 @@ export default function ({
   generatedSubscription,
   generatedSubscriptionDocument,
   generatedQueryTypesEnum,
+  useFetch,
 }: any) {
-  return `${renderImports()}
+  return `
+${useFetch ? '' : renderImports()}
 
 // tslint:disable
 
@@ -27,12 +29,21 @@ ${generatedRefetchQuery || ''}
 ${generatedCacheWriteQuery || ''}
 ${generatedMutation || ''}
 ${generatedSubscription || ''}
-${generatedSubscriptionDocument || 'class SubscriptionDocument { }'}
+${
+  generatedSubscriptionDocument ||
+  (useFetch ? '' : 'class SubscriptionDocument { }')
+}
 
 // helper types
-type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 ${
-  generatedQuery
+  useFetch
+    ? ''
+    : `
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
+`
+}
+${
+  generatedQuery && !useFetch
     ? `
 type OmittedQueryOptions = Omit<Partial<QueryOptions<OperationVariables>>, 'query' | 'variables'>
 type OmittedWatchQueryOptions = Omit<Partial<WatchQueryOptions<OperationVariables>>, 'variables' | 'query'>
@@ -50,13 +61,13 @@ type SubscribeToMoreOptions<T> = {
     : ''
 }
 ${
-  generatedMutation
+  generatedMutation && !useFetch
     ? `
 type OmittedMutationOptions = Omit<Partial<MutationOptions<OperationVariables>>, 'mutation' | 'variables'>`
     : ''
 }
 ${
-  generatedSubscription
+  generatedSubscription && !useFetch
     ? `
 type OmittedSubscriptionOptions = Omit<Partial<SubscriptionOptions<OperationVariables>>, 'query' | 'variables'>`
     : ''
@@ -67,11 +78,21 @@ interface FragmentOptions {
 	fragmentName?: string
 }
 
+${
+  useFetch
+    ? ''
+    : `
 interface GraphqlCallOptions<TFetchPolicy = FetchPolicy> {
 	fetchPolicy?: TFetchPolicy
 	errorPolicy?: ErrorPolicy
 }
+`
+}
 
+${
+  useFetch
+    ? ''
+    : `
 interface DefaultOptions {
 	${generatedQuery ? 'query?: GraphqlCallOptions' : ''}
 	${
@@ -86,7 +107,8 @@ interface DefaultOptions {
       : ''
   }
 }
-
+`
+}
 export interface Client {
 	${generatedQuery ? 'query: Query' : ''}
 	${generatedWatchQuery ? 'watchQuery: WatchQuery' : ''}
@@ -96,6 +118,21 @@ export interface Client {
 	${generatedSubscription ? 'subscription: Subscription' : ''}
 }
 
+${
+  useFetch
+    ? `
+export type FetchGraphql = (
+  url: string,
+  query: string,
+  variables: Object,
+  getHeaders: () => Record<string, string>
+) => Promise<unknown>
+
+const defaultFetchGraphql: FetchGraphql = async (url, query, variables, getHeaders) => {
+
+}
+    `
+    : `
 export default function (client: ApolloClient<any>, defaultOptions: DefaultOptions = {}): Client {
 	${
     generatedSubscriptionDocument
@@ -133,6 +170,8 @@ export default function (client: ApolloClient<any>, defaultOptions: DefaultOptio
     }
 	}
 }
+`
+}
 
 function getResultData<T>(result: any, dataFieldName: any) {
 	// if error, throw it
@@ -154,7 +193,7 @@ function getFirstFragmentName(fragmentParam: string | Object | undefined, return
   const fragment = fragmentParam as any
 
 
-  var fragmentDef = fragment.definitions.filter(
+  const fragmentDef = fragment.definitions.filter(
     (x: any) => x.kind === 'FragmentDefinition' && (!returnClassName || x.typeCondition?.name?.value === returnClassName)
   )[0]
 

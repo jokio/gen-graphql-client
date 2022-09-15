@@ -10,6 +10,8 @@ const enumToUnion = !flags.enums
 const generateDefaultFragments =
   !!flags.defaultFragment || !!flags.defaultFragments
 
+const useFetch = !!flags.fetch
+
 console.log('Introspecting : ', endpointUrl)
 
 gen({
@@ -18,4 +20,5 @@ gen({
   typeNamePrefix,
   enumToUnion,
   generateDefaultFragments,
+  useFetch,
 })

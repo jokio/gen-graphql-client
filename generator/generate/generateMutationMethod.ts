@@ -18,7 +18,9 @@ import renderOptions from '../render/renderOptions.ts'
 export default function (
   field: IntrospectionField,
   types: IntrospectionType[],
-  generateDefaultFragments: boolean
+  generateDefaultFragments: boolean,
+  onlyDocument: boolean,
+  useFetch: boolean
 ) {
   const queryName = field.name
   const propsType = getTypescriptPropsTypeName('Mutation', queryName)
@@ -61,9 +63,16 @@ export default function (
     propsType,
     hasResultType,
     returnClassFullname,
+    useFetch,
     renderContent: () =>
       // Render Query
-      renderOptions(fragmentName, hasResultType, undefined, returnClassName) +
+      renderOptions(
+        fragmentName,
+        hasResultType,
+        undefined,
+        returnClassName,
+        useFetch
+      ) +
       (hasResultType
         ? renderFragment(type, generateDefaultFragments, returnGraphqlTypeName)
         : '') +
@@ -72,12 +81,14 @@ export default function (
         queryName,
         variablesDeclarationString,
         variablesString,
+        useFetch,
       }) +
       renderApolloCall({
         rootType: RootType.Mutation,
         hasVariables: hasInputs,
         queryName,
         returnType: returnClassFullname,
+        useFetch,
       }),
   })
 

@@ -11,7 +11,8 @@ export default function (
   includeTypeName: boolean,
   typeNamePrefix: string,
   typeNamePostfix: string,
-  enumToUnion: boolean
+  enumToUnion: boolean,
+  useFetch: boolean
 ) {
   const {
     queryType: { name: queryTypeName },
@@ -46,45 +47,59 @@ export default function (
   const generatedQuery = generateRootType(
     RootType.Query,
     otherTypes,
-    generateDefaultFragments
+    generateDefaultFragments,
+    undefined,
+    useFetch
   )(queryType)
 
-  const generatedWatchQuery = generateRootType(
-    'watchQuery',
-    otherTypes,
-    generateDefaultFragments
-  )(queryType)
+  const generatedWatchQuery = useFetch
+    ? ''
+    : generateRootType(
+        'watchQuery',
+        otherTypes,
+        generateDefaultFragments
+      )(queryType)
 
-  const generatedRefetchQuery = generateRootType(
-    'refetchQuery',
-    otherTypes,
-    generateDefaultFragments
-  )(queryType)
+  const generatedRefetchQuery = useFetch
+    ? ''
+    : generateRootType(
+        'refetchQuery',
+        otherTypes,
+        generateDefaultFragments
+      )(queryType)
 
-  const generatedCacheWriteQuery = generateRootType(
-    'cacheWriteQuery',
-    otherTypes,
-    generateDefaultFragments
-  )(queryType)
+  const generatedCacheWriteQuery = useFetch
+    ? ''
+    : generateRootType(
+        'cacheWriteQuery',
+        otherTypes,
+        generateDefaultFragments
+      )(queryType)
 
   const generatedMutation = generateRootType(
     RootType.Mutation,
     otherTypes,
-    generateDefaultFragments
+    generateDefaultFragments,
+    undefined,
+    useFetch
   )(mutationType)
 
-  const generatedSubscription = generateRootType(
-    RootType.Subscription,
-    otherTypes,
-    generateDefaultFragments
-  )(subscriptionType)
+  const generatedSubscription = useFetch
+    ? ''
+    : generateRootType(
+        RootType.Subscription,
+        otherTypes,
+        generateDefaultFragments
+      )(subscriptionType)
 
-  const generatedSubscriptionDocument = generateRootType(
-    RootType.Subscription,
-    otherTypes,
-    generateDefaultFragments,
-    true
-  )(subscriptionType)
+  const generatedSubscriptionDocument = useFetch
+    ? ''
+    : generateRootType(
+        RootType.Subscription,
+        otherTypes,
+        generateDefaultFragments,
+        true
+      )(subscriptionType)
 
   const generatedOtherTypes = otherTypes
     .sort(sortTypesByKind)
@@ -111,6 +126,7 @@ export default function (
     generatedSubscriptionDocument,
     generatedOtherTypes,
     generatedQueryTypesEnum,
+    useFetch,
   })
 }
 

@@ -10,6 +10,7 @@ export default async function ({
   typeNamePrefix,
   typeNamePostfix,
   enumToUnion,
+  useFetch,
 }: any) {
   const introspectionSchema = await getIntropsectionSchema(graphqlUrl)
   const output = generateProxy(
@@ -18,7 +19,8 @@ export default async function ({
     includeTypeName,
     typeNamePrefix,
     typeNamePostfix,
-    enumToUnion
+    enumToUnion,
+    useFetch
   )
 
   saveGeneratedFile(outputUrl, output)

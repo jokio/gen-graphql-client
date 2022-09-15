@@ -9,13 +9,14 @@ export default function ({
   renderContent,
   hasResultType,
   returnClassFullname,
+  useFetch,
 }: any) {
   const omittedOptionsType = (
     {
-      [RootType.Query]: 'OmittedQueryOptions',
+      [RootType.Query]: useFetch ? '' : 'OmittedQueryOptions',
       watchQuery: `OmittedWatchQueryOptions & SubscribeToMoreOptions<{ ${methodName} : ${returnClassFullname}}>`,
       cacheWriteQuery: 'OmittedQueryOptions',
-      [RootType.Mutation]: 'OmittedMutationOptions',
+      [RootType.Mutation]: useFetch ? '' : 'OmittedMutationOptions',
       [RootType.Subscription]: 'OmittedSubscriptionOptions',
     } as any
   )[rootType]
@@ -25,7 +26,9 @@ export default function ({
   const fragmentRequiredSymbol = generateDefaultFragments ? '?' : ''
 
   const fragmentProp = hasResultType
-    ? `fragment${fragmentRequiredSymbol}: string | DocumentNode,`
+    ? `fragment${fragmentRequiredSymbol}: ${
+        useFetch ? 'string' : 'string | DocumentNode'
+      },`
     : ''
 
   const fragmentType = hasResultType ? 'FragmentOptions' : ''
@@ -39,9 +42,17 @@ export default function ({
 			${fragmentProp}`
         : `
 			${fragmentProp}
-			options?: GraphqlCallOptions<${
-        rootType === 'watchQuery' ? 'WatchQueryFetchPolicy' : 'FetchPolicy'
-      }> ${fragmentType ? `& ${fragmentType}` : ''} & ${omittedOptionsType},`
+			options?: ${
+        useFetch
+          ? `{}`
+          : `GraphqlCallOptions<${
+              rootType === 'watchQuery'
+                ? 'WatchQueryFetchPolicy'
+                : 'FetchPolicy'
+            }>`
+      } ${fragmentType ? `& ${fragmentType}` : ''}${
+            omittedOptionsType ? ' & ' : ''
+          }${omittedOptionsType},`
     }
 	) {
 	${renderContent()}

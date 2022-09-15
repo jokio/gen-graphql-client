@@ -13,7 +13,8 @@ export default (
     typeName: RootType | 'watchQuery' | 'refetchQuery' | 'cacheWriteQuery',
     otherTypes: IntrospectionType[],
     generateDefaultFragments: boolean,
-    onlyDocument = false
+    onlyDocument = false,
+    useFetch = false
   ) =>
   (queryType: IntrospectionType) => {
     if (
@@ -37,7 +38,13 @@ export default (
     const generateMethod = generateOptions[typeName]
 
     const methodsAndProps = queryType.fields.map((x: any) =>
-      generateMethod(x, otherTypes, generateDefaultFragments, onlyDocument)
+      generateMethod(
+        x,
+        otherTypes,
+        generateDefaultFragments,
+        onlyDocument,
+        useFetch
+      )
     )
 
     const methodProps = onlyDocument
@@ -54,5 +61,6 @@ export default (
       renderMethods: () => methods.join('\n'),
       isWatchQuery: typeName === 'watchQuery',
       onlyDocument,
+      useFetch,
     })
   }

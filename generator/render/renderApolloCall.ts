@@ -6,12 +6,24 @@ export default function ({
   queryName,
   returnType,
   isWatchQuery = false,
+  useFetch = false,
 }: Props) {
   let methodName = {
     [RootType.Query]: 'query',
     [RootType.Mutation]: 'mutate',
     [RootType.Subscription]: 'subscribe',
   }[rootType]
+
+  if (useFetch) {
+    return `
+    return this.fetchGraphql(
+			this.url, 
+      ${methodName === RootType.Query ? 'query' : 'mutation'},
+      ${!hasVariables ? '{}' : 'props'}, 
+      this.getHeaders
+		).then((result: any) => getResultData<${returnType}>(result, '${queryName}'))
+    `
+  }
 
   if (isWatchQuery && rootType === RootType.Query) {
     methodName = 'watchQuery'
@@ -82,4 +94,5 @@ interface Props {
   queryName: string
   returnType: any
   isWatchQuery?: boolean
+  useFetch?: boolean
 }

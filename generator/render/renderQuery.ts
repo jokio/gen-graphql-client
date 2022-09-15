@@ -3,10 +3,11 @@ export default function ({
   queryName,
   variablesDeclarationString,
   variablesString,
+  useFetch,
 }: any) {
   if (!hasFragment) {
     return `	// build query
-		const query = gql2\`
+		const query = ${useFetch ? '' : 'gql2'}\`
 		query ${queryName}${variablesDeclarationString} {
 			${queryName}${variablesString}
 		}
@@ -15,7 +16,7 @@ export default function ({
 
   return `
 		// build query
-		const query = gql2\`
+		const query = ${useFetch ? '' : 'gql2'}\`
 		query ${queryName}${variablesDeclarationString} {
 			${queryName}${variablesString} {
 				...\${fragmentName}
