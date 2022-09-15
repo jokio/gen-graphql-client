@@ -128,9 +128,24 @@ export type FetchGraphql = (
   getHeaders: () => Record<string, string>
 ) => Promise<unknown>
 
-const defaultFetchGraphql: FetchGraphql = async (url, query, variables, getHeaders) => {
-
-}
+const defaultFetchGraphql: FetchGraphql = (
+  url,
+  query,
+  variables,
+  getHeaders
+) =>
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      ...getHeaders(),
+    },
+    body: JSON.stringify({
+      operationName: null,
+      variables,
+      query,
+    }),
+  }).then((x) => x.json())
     `
     : `
 export default function (client: ApolloClient<any>, defaultOptions: DefaultOptions = {}): Client {

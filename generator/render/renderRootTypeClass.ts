@@ -18,7 +18,7 @@ export class ${className}${onlyDocument ? 'Document' : ''} {
       useFetch
         ? `
     private url: string,
-    private getHeaders: () => Record<string, string>,
+    private getHeaders: () => Record<string, string> = () => ({}),
     private fetchGraphql: FetchGraphql = defaultFetchGraphql
     `
         : `
