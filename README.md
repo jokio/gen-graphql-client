@@ -9,13 +9,13 @@ The script will do the schema introspection and next map it to typescript types.
 Minimal:
 
 ```
-deno run -A https://deno.land/x/gen_graphql/gen.ts http://localhost:5000/graphql
+deno run -A https://deno.land/x/gen_graphql@v2.0/gen.ts http://localhost:5000/graphql
 ```
 
 Advanced:
 
 ```
-deno run -A https://deno.land/x/gen_graphql/gen.ts -e http://localhost:5000/graphql -o src/graphql.generated.ts --prefix Gql
+deno run -A https://deno.land/x/gen_graphql@v2.0/gen.ts -e http://localhost:5000/graphql -o src/graphql.generated.ts --prefix Gql
 ```
 
 ## Params
