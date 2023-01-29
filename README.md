@@ -6,7 +6,7 @@ The script will do the schema introspection and next map it to typescript types.
 
 ## Requirements
 
-* Deno - https://deno.land/manual@v1.30.0/getting_started/installation
+* [Deno](https://deno.land/manual@v1.30.0/getting_started/installation)
 
 _You can think about Deno as a modern version of python, or "node.js done right"_
 
