@@ -8,7 +8,9 @@ The script will do the schema introspection and next map it to typescript types.
 
 * [Deno](https://deno.land/manual@v1.30.0/getting_started/installation)
 
-_You can think about Deno as a modern version of python, or "node.js done right"_
+_You can think about Deno as a modern version of python, or "node.js done right"._
+
+Deno is used only for type generation, next you can use the generated file with node.js as well, it's a regular typescript file.
 
 ## How to use
 
