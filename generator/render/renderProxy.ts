@@ -148,14 +148,14 @@ const defaultFetchGraphql: FetchGraphql = (
   }).then((x) => x.json())
     `
     : `
-export default function (client: ApolloClient<any>, defaultOptions: DefaultOptions = {}): Client {
+export default function (client: ApolloClient<any>, defaultOptions: DefaultOptions = {}, gql = gql2): Client {
 	${
     generatedSubscriptionDocument
       ? 'const subscriptionDocument = new SubscriptionDocument(client, defaultOptions.subscription || {})'
       : ''
   }
 	return {
-		${generatedQuery ? 'query: new Query(client, defaultOptions.query || {}),' : ''}
+		${generatedQuery ? 'query: new Query(client, defaultOptions.query || {}, gql),' : ''}
 		${
       generatedWatchQuery
         ? `watchQuery: new WatchQuery(client, defaultOptions.query || {}, ${
@@ -165,22 +165,22 @@ export default function (client: ApolloClient<any>, defaultOptions: DefaultOptio
     }
 		${
       generatedRefetchQuery
-        ? 'refetchQuery: new RefetchQuery(client, defaultOptions.query || {}),'
+        ? 'refetchQuery: new RefetchQuery(client, defaultOptions.query || {}, gql),'
         : ''
     }
 		${
       generatedCacheWriteQuery
-        ? 'cacheWriteQuery: new CacheWriteQuery(client, defaultOptions.query || {}),'
+        ? 'cacheWriteQuery: new CacheWriteQuery(client, defaultOptions.query || {}, gql),'
         : ''
     }
 		${
       generatedMutation
-        ? 'mutation: new Mutation(client, defaultOptions.mutation || {}),'
+        ? 'mutation: new Mutation(client, defaultOptions.mutation || {}, gql),'
         : ''
     }
 		${
       generatedSubscription
-        ? 'subscription: new Subscription(client, defaultOptions.subscription || {}),'
+        ? 'subscription: new Subscription(client, defaultOptions.subscription || {}, gql),'
         : ''
     }
 	}
